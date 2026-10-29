@@ -25,7 +25,7 @@
     SSLEngine on
     SSLCertificateFile {{SSL_DIR}}/{{DOMAIN}}/selfsigned.crt
     SSLCertificateKeyFile {{SSL_DIR}}/{{DOMAIN}}/selfsigned.key
-
+    IncludeOptional /etc/autohost/webdav/{{DOMAIN}}.conf
     # Ghi nhật ký truy cập và nhật ký lỗi vào thư mục riêng của domain
     ErrorLog {{APACHE_LOG_DIR}}/{{DOMAIN}}/error.log
     CustomLog {{APACHE_LOG_DIR}}/{{DOMAIN}}/access.log combined
