@@ -1,0 +1,31 @@
+📄 Tài liệu 1: Hướng dẫn dành cho Admin (Quản trị viên)
+
+Đối tượng: Người sở hữu máy chủ, có quyền sudo/root.
+
+🚀 1. Khởi tạo hệ thống (Chỉ làm lần đầu)
+
+Để cài đặt toàn bộ môi trường (Apache, SSL, ACL, UFW...), hãy chạy lệnh:
+sudo bash install.sh
+
+🛠 2. Quản lý gian hàng Website
+
+Admin sử dụng các công cụ trong thư mục /opt/autohost/bin/ để điều phối hệ thống:
+
+- Tạo website mới cho khách hàng:
+# Cú pháp: sudo /opt/autohost/bin/addsite.sh [tên_user] [tên_miền]
+sudo /opt/autohost/bin/addsite.sh alice alice.autohost.local
+  (Sau lệnh này, hãy gửi Username và Password hiển thị trên màn hình cho khách hàng).
+- Xem danh sách và trạng thái các site:
+sudo /opt/autohost/bin/listsite.sh
+- Sao lưu dữ liệu toàn hệ thống:
+sudo /opt/autohost/bin/backup.sh
+sudo /opt/autohost/bin/listsite.sh
+- Sao lưu dữ liệu toàn hệ thống:
+sudo /opt/autohost/bin/backup.sh
+- Xóa website và thu hồi tài nguyên:
+sudo /opt/autohost/bin/delsite.sh alice.autohost.local
+
+⌨️ 3. Sử dụng Menu điều khiển nhanh (Khuyên dùng)
+
+Thay vì gõ lệnh, Admin có thể dùng giao diện Menu số:
+sudo /opt/autohost/bin/autohost.sh
