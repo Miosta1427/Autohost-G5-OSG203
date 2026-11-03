@@ -1,31 +1,72 @@
-📄 Tài liệu 1: Hướng dẫn dành cho Admin (Quản trị viên)
+🛠 Hướng Dẫn Quản Trị Viên (Admin Guide) - Autohost
 
-Đối tượng: Người sở hữu máy chủ, có quyền sudo/root.
+Đối tượng áp dụng: Người quản lý máy chủ, có quyền truy cập cao nhất (sudo hoặc root).
 
-🚀 1. Khởi tạo hệ thống (Chỉ làm lần đầu)
+---
 
-Để cài đặt toàn bộ môi trường (Apache, SSL, ACL, UFW...), hãy chạy lệnh:
+📥 1. Tải Dự Án & Khởi Tạo (Cho máy ảo mới)
+
+Nếu bạn vừa cài Ubuntu Server và muốn triển khai hệ thống Autohost, hãy thực hiện các lệnh sau:
+
+Bước 1: Tải mã nguồn từ GitHub
+# Cài đặt git nếu chưa có
+sudo apt update && sudo apt install -y git
+
+# Clone dự án về máy (thay link bằng link repo của nhóm bạn)
+git clone https://github.com/Miosta1427/Autohost-G5-OSG203.git /root/autohost
+cd /root/autohost
+
+Bước 2: Khử lỗi định dạng file (Quan trọng)
+Vì code có thể được viết trên Windows, cần xóa ký tự \r để chạy được trên Linux:
+sudo apt install -y dos2unix
+find . -type f \( -name "*.sh" -o -name "*.conf" -o -name "*.tpl" \) -exec sed -i 's/\r$//' {} +
+Vì code có thể được viết trên Windows, cần xóa ký tự \r để chạy được trên Linux:
+sudo apt install -y dos2unix
+find . -type f \( -name "*.sh" -o -name "*.conf" -o -name "*.tpl" \) -exec sed -i 's/\r$//' {} +
+chmod +x install.sh bin/*.sh lib/*.sh
+
+Bước 3: Chạy cài đặt tổng
+Lệnh này sẽ tự động cài Apache, OpenSSL, ACL và cấu hình hệ thống:
 sudo bash install.sh
 
-🛠 2. Quản lý gian hàng Website
+---
 
-Admin sử dụng các công cụ trong thư mục /opt/autohost/bin/ để điều phối hệ thống:
+🛠 2. Quản Lý Gian Hàng Website
 
-- Tạo website mới cho khách hàng:
+Sau khi cài đặt, toàn bộ công cụ quản lý sẽ nằm tại /opt/autohost/bin/.
+
+➕ Tạo Website mới cho khách hàng
+
+Sử dụng lệnh addsite.sh để cấp phát tài nguyên:
 # Cú pháp: sudo /opt/autohost/bin/addsite.sh [tên_user] [tên_miền]
 sudo /opt/autohost/bin/addsite.sh alice alice.autohost.local
-  (Sau lệnh này, hãy gửi Username và Password hiển thị trên màn hình cho khách hàng).
-- Xem danh sách và trạng thái các site:
+👉 Kết quả: Hệ thống sẽ in ra Username và Password ngẫu nhiên. Admin hãy copy và gửi thông tin này cho khách hàng.
+
+📋 Kiểm tra danh sách Website
+
+Xem tất cả các site đang hoạt động, dung lượng và trạng thái SSL:
 sudo /opt/autohost/bin/listsite.sh
-- Sao lưu dữ liệu toàn hệ thống:
+
+📦 Sao lưu và Xóa bỏ
+
+- Sao lưu toàn bộ dữ liệu:
 sudo /opt/autohost/bin/backup.sh
-sudo /opt/autohost/bin/listsite.sh
-- Sao lưu dữ liệu toàn hệ thống:
-sudo /opt/autohost/bin/backup.sh
-- Xóa website và thu hồi tài nguyên:
+- Xóa bỏ website (Thu hồi tài nguyên):
 sudo /opt/autohost/bin/delsite.sh alice.autohost.local
 
-⌨️ 3. Sử dụng Menu điều khiển nhanh (Khuyên dùng)
+---
 
-Thay vì gõ lệnh, Admin có thể dùng giao diện Menu số:
+⌨️ 3. Giao Diện Điều Khiển Nhanh (Menu)
+
+Để tránh việc phải gõ lệnh dài, Admin có thể sử dụng Menu tương tác:
 sudo /opt/autohost/bin/autohost.sh
+(Chỉ cần nhập số tương ứng với chức năng bạn muốn thực hiện trên màn hình).
+
+---
+
+⚠️ Lưu Ý Quan Trọng cho Admin
+
+1. Quyền hạn: Mọi lệnh quản trị bắt buộc phải có sudo ở phía trước.
+2. Tường lửa: Luôn đảm bảo cổng 22 (SSH), 80 (HTTP) và 443 (HTTPS) được mở để không bị mất kết nối và khách hàng có thể truy cập web.
+3. File Hosts: Đối với các tên miền .local, Admin cần hướng dẫn khách hàng thêm dòng IP máy chủ vào file hosts trên máy tính cá nhân của họ để có thể truy cập được.
+Xem tất cả các site đang hoạt động, dung lượng và trạng thái SSL:
